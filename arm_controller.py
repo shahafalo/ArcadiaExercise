@@ -80,4 +80,5 @@ class Arm:
         except Exception as e:
             logging.error(f"Exception occurred during arm movement: {e}")
         finally:
+            logging.info(f"Finished moving, Moved {encoder_flips_count // 4} units")
             self._motor.off()
