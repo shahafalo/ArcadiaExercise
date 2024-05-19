@@ -9,10 +9,12 @@ class Motor:
         self.direction = None
 
 class Encoder:
-    _status = 0
+    _counter = -1
+    _mocked_values = [0, 0, 1, 1]
 
     def status(self):
-        return self._status
+        self._counter = (self._counter + 1) % 4
+        return self._mocked_values[self._counter]
 
 class MicroSwitch:
     _status = 0
