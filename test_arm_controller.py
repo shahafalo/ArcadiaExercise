@@ -50,7 +50,8 @@ async def test_move_arm_stops_on_microswitch_activation(arm, motor, encoder, mic
     assert motor.on.call_count == 1
     assert motor.off.call_count == 1
     assert encoder.status.call_count == 3  # Stopped early due to microswitch
-    mock_logging.info.assert_called_with("Stop: MicroSwitch activated.")
+    assert mock_logging.info.call_args_list[0][0][0] == "Stop: MicroSwitch activated."
+    assert mock_logging.info.call_args_list[1][0][0] == "Finished moving, Moved 0 units"
 
 
 @pytest.mark.asyncio
