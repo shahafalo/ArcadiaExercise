@@ -35,9 +35,13 @@ class Arm:
         """
         if distance < 1 or distance % 1 != 0:
             # Assuming a fraction is not valid to make a consistent behaviour
+            logging.error(f"Invalid distance: {distance}, should be a natural positive number")
             raise InvalidDistanceError(f"Invalid distance: {distance}, should be a natural positive number")
+
         if direction not in VALID_DIRECTIONS:
+            logging.error(f"Invalid direction: {direction}, Valid directions are: left (1) or right (2)")
             raise InvalidDirectionError(f"Invalid direction: {direction}, Valid directions are: left (1) or right (2)")
+
     async def move_arm(self, direction: int, distance: int) -> None:
         """
         Moves the arm in the specified direction for the given distance.
@@ -45,11 +49,7 @@ class Arm:
         :param direction: Direction to move the arm (1 for left, 2 for right).
         :param distance: Distance to move the arm (in units).
         """
-        try:
-            self._validate_input(direction, distance)
-        except (InvalidDirectionError, InvalidDistanceError) as e:
-            logging.error(str(e))
-            raise e
+        self._validate_input(direction, distance)
 
         movement_degrees = MOTOR_MOVEMENT_DEGREES_PER_DISTANCE_UNIT * distance
         encoder_flips_needed = movement_degrees // MOTOR_MOVEMENT_DEGREES_PER_ENCODER_FLIP
